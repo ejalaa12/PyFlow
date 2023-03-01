@@ -1,7 +1,13 @@
+from collections import OrderedDict
+
+PACKAGE_NAME = 'PyFlowNumpy'
 from PyFlow.UI.UIInterfaces import IPackage
 
 from .Pins.NdArrayPin import NdArrayPin
 from .Nodes.makeNumpyArray import makeNumpyArray
+from .Nodes.linspaceArray import linspaceArray
+from .FunctionLibraries.Numpy import Numpy
+from .FunctionLibraries.Datetime import Datetime
 
 
 class PyFlowNumpy(IPackage):
@@ -11,16 +17,20 @@ class PyFlowNumpy(IPackage):
 
     @staticmethod
     def GetExporters():
-        return {}
+        return OrderedDict()
 
     @staticmethod
     def GetFunctionLibraries():
-        return {}
+        return {
+            Numpy.__name__: Numpy(PACKAGE_NAME),
+            Datetime.__name__: Datetime(PACKAGE_NAME)
+        }
 
     @staticmethod
     def GetNodeClasses():
         return {
-            makeNumpyArray.__name__: makeNumpyArray
+            makeNumpyArray.__name__: makeNumpyArray,
+            linspaceArray.__name__: linspaceArray
         }
 
     @staticmethod
@@ -31,4 +41,20 @@ class PyFlowNumpy(IPackage):
 
     @staticmethod
     def GetToolClasses():
-        return {}
+        return OrderedDict()
+
+    # @staticmethod
+    # def UIPinsFactory():
+    #     return createUIPin
+    #
+    # @staticmethod
+    # def UINodesFactory():
+    #     return createUINode
+    #
+    # @staticmethod
+    # def PinsInputWidgetFactory():
+    #     return getInputWidget
+    #
+    # @staticmethod
+    # def PrefsWidgets():
+    #     return None

@@ -2,15 +2,6 @@ from PyFlow.Core import NodeBase, PinBase
 from PyFlow.Core.Common import PinOptions, StructureType
 from PyFlow.Core.NodeBase import NodePinsSuggestionsHelper
 import numpy as np
-import json
-from json import JSONEncoder
-
-
-class NumpyArrayEncoder(JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return JSONEncoder.default(self, obj)
 
 
 class makeNumpyArray(NodeBase):
@@ -28,18 +19,15 @@ class makeNumpyArray(NodeBase):
     def pinTypeHints():
         helper = NodePinsSuggestionsHelper()
         helper.addInputDataType('AnyPin')
-        helper.addInputDataType('BoolPin')
         helper.addOutputDataType('AnyPin')
-        helper.addOutputDataType('BoolPin')
         helper.addInputStruct(StructureType.Array)
-        helper.addInputStruct(StructureType.Single)
         helper.addOutputStruct(StructureType.Array)
         helper.addOutputStruct(StructureType.Single)
         return helper
 
     @staticmethod
     def category():
-        return 'GenericTypes'
+        return 'Numpy'
 
     @staticmethod
     def keywords():
