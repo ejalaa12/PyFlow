@@ -1,12 +1,28 @@
+from typing import Any, Callable
+
 from PyFlow.Core import PinBase
 import numpy as np
+import json
+from json import JSONEncoder, JSONDecoder
+
+
+class NumpyArrayEncoder(JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return JSONEncoder.default(self, obj)
+
+class NumpyArrayDecoder(JSONDecoder):
+
+    def decode(self, s: str, _w: Callable[..., Any] = ...) -> Any:
+        return np.array(super().decode(s, _w))
 
 
 class NdArrayPin(PinBase):
 
     def __init__(self, name, parent, direction, **kwargs):
         super(NdArrayPin, self).__init__(name, parent, direction, **kwargs)
-        self.setDefaultValue(np.empty([1], dtype=np.float))
+        self.setDefaultValue(np.empty([1], dtype=np.float64))
 
     @staticmethod
     def IsValuePin():
@@ -18,7 +34,7 @@ class NdArrayPin(PinBase):
 
     @staticmethod
     def pinDataTypeHint():
-        return 'NdArrayPin', 0
+        return 'NdArrayPin', np.zeros([0])
 
     @staticmethod
     def internalDataStructure():
@@ -27,5 +43,22 @@ class NdArrayPin(PinBase):
     @staticmethod
     def processData(data):
         return NdArrayPin.internalDataStructure()(data)
+
+    @staticmethod
+    def supportedDataTypes():
+        return ('IntPin', 'FloatPin', 'AnyPin', 'NdArrayPin')
+
+    @staticmethod
+    def jsonEncoderClass():
+        return NumpyArrayEncoder
+
+    @staticmethod
+    def jsonDecoderClass():
+        return NumpyArrayDecoder
+
+
+
+
+
 
 
