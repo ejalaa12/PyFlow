@@ -1,4 +1,16 @@
 ## Copyright 2015-2019 Ilgar Lunin, Pedro Cabrera
+from __future__ import annotations
+from typing import Dict, List, Callable, Any, TYPE_CHECKING, OrderedDict
+
+
+if TYPE_CHECKING:
+    from PyFlow.Core import FunctionLibraryBase, NodeBase, PinBase
+    from PyFlow.UI.Canvas.UINodeBase import UINodeBase
+    from PyFlow.UI.Canvas.UIPinBase import UIPinBase
+    from PyFlow.UI.Tool.Tool import ToolBase
+    from PyFlow.UI.Widgets.InputWidgets import InputWidgetSingle
+    from PyFlow.UI.Widgets.PreferencesWindow import CategoryWidgetBase
+
 
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
@@ -84,7 +96,7 @@ class IPackage(object):
         super(IPackage, self).__init__()
 
     @staticmethod
-    def GetExporters():
+    def GetExporters() -> OrderedDict[str, IDataExporter]:
         """Registered editor data exporters
 
         :rtype: dict(str, class)
@@ -92,7 +104,7 @@ class IPackage(object):
         raise NotImplementedError('GetExporters method of IPackage is not implemented')
 
     @staticmethod
-    def GetFunctionLibraries():
+    def GetFunctionLibraries() -> Dict[str, FunctionLibraryBase]:
         """Registered function library instances
 
         :rtype: dict(str, object)
@@ -100,7 +112,7 @@ class IPackage(object):
         raise NotImplementedError('GetFunctionLibraries method of IPackage is not implemented')
 
     @staticmethod
-    def GetNodeClasses():
+    def GetNodeClasses() -> Dict[str, NodeBase]:
         """Registered node classes
 
         :rtype: dict(str, class)
@@ -108,7 +120,7 @@ class IPackage(object):
         raise NotImplementedError('GetNodeClasses method of IPackage is not implemented')
 
     @staticmethod
-    def GetPinClasses():
+    def GetPinClasses() -> Dict[str, PinBase]:
         """Registered pin classes
 
         :rtype: dict(str, class)
@@ -116,7 +128,7 @@ class IPackage(object):
         raise NotImplementedError('GetPinClasses method of IPackage is not implemented')
 
     @staticmethod
-    def GetToolClasses():
+    def GetToolClasses() -> OrderedDict[str, ToolBase]:
         """Registered tool classes
 
         :rtype: dict(str, class)
@@ -124,7 +136,7 @@ class IPackage(object):
         raise NotImplementedError('GetToolClasses method of IPackage is not implemented')
 
     @staticmethod
-    def UIPinsFactory():
+    def UIPinsFactory() -> Callable[[NodeBase, PinBase], UIPinBase]:
         """Registered ui pin wrappers
 
         :rtype: function
@@ -132,7 +144,7 @@ class IPackage(object):
         return None
 
     @staticmethod
-    def UINodesFactory():
+    def UINodesFactory() -> Callable[[NodeBase], UINodeBase]:
         """Registered ui nodes
 
         :rtype: function
@@ -140,7 +152,7 @@ class IPackage(object):
         return None
 
     @staticmethod
-    def PinsInputWidgetFactory():
+    def PinsInputWidgetFactory() -> Callable[[str, Callable[[Any], None], Any, str], InputWidgetSingle]:
         """Registered pin input widgets
 
         :rtype: function
@@ -148,7 +160,7 @@ class IPackage(object):
         return None
 
     @staticmethod
-    def PrefsWidgets():
+    def PrefsWidgets() -> OrderedDict[str, CategoryWidgetBase]:
         """Registered preferences widgets
 
         :rtype: dict(str, class)

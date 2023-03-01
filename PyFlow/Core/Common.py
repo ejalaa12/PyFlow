@@ -20,12 +20,18 @@
 
 """
 
+from __future__ import annotations
 import re
 import math
 import time
 import inspect
 import struct
 import weakref
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from PyFlow.Core import PinBase
+
 try:
     from queue import Queue
 except:
@@ -239,7 +245,7 @@ def cycleCheck(src, dst):
     return False
 
 
-def arePinsConnected(src, dst):
+def arePinsConnected(src: PinBase, dst: PinBase):
     """Checks if two pins are connected
 
     .. note:: Pins can be passed in any order if **src** pin is :py:class:`PyFlow.Core.Common.PinDirection`, they will be swapped
@@ -295,7 +301,7 @@ def pinAffects(lhs, rhs):
     rhs.affected_by.add(lhs)
 
 
-def canConnectPins(src, dst):
+def canConnectPins(src: PinBase, dst: PinBase):
     """**Very important fundamental function, it checks if connection between two pins is possible**
 
     :param src: Source pin to connect
@@ -782,7 +788,7 @@ class StructureType(IntEnum):
     Single = 0  #: Single data structure
     Array = 1  #: Python list structure, represented as arrays -> typed and lists -> non typed
     Dict = 2  #: :py:class:`PFDict` structure, is basically a rey typed python dict
-    Multi = 3  #: This means it can became any of the previous ones on connection/user action
+    Multi = 3  #: This means it can become any of the previous ones on connection/user action
 
 
 def findStructFromValue(value):

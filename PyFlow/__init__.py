@@ -41,22 +41,23 @@ __all__ = [
     "getHashableDataTypes",
 ]
 
+from PyFlow.UI.UIInterfaces import IPackage
 
-__PACKAGES = {}
-__PACKAGE_PATHS = {}
-__HASHABLE_TYPES = []
+__PACKAGES: dict[str, IPackage] = {}
+__PACKAGE_PATHS: dict[str, str] = {}
+__HASHABLE_TYPES: list[str] = []
 
 
-def GET_PACKAGES():
+def GET_PACKAGES() -> dict[str, IPackage]:
     return __PACKAGES
 
 
-def GET_PACKAGE_PATH(packageName):
+def GET_PACKAGE_PATH(packageName: str) -> str:
     if packageName in __PACKAGE_PATHS:
         return __PACKAGE_PATHS[packageName]
 
 
-def GET_PACKAGE_CHECKED(package_name):
+def GET_PACKAGE_CHECKED(package_name) -> IPackage:
     assert package_name in __PACKAGES
     return __PACKAGES[package_name]
 
